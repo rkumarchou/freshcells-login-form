@@ -1,7 +1,9 @@
 
 import styled from 'styled-components'
 import { useState } from 'react'
-
+import { useHistory } from 'react-router-dom';
+import { LOGIN } from '../query/query'
+import { useMutation } from '@apollo/client'
 
 export const LoginForm = styled.form `
   position: absolute;
@@ -45,11 +47,27 @@ type LoginType = {
 
 
 const Login = () => {
+  const history = useHistory();
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const [login, { data }] = useMutation(LOGIN, {
+    onCompleted: (response) => {
+      localStorage.setItem('token', response.login.jwt)
+      history.push('/dashboard')      
+    },
+    
+  });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log("Form Submitted")
+    e.preventDefault();
+    login({
+      variables: {
+        input: {
+          identifier: email,
+          password: password
+        }
+      }
+    })
+
   }
   return (
   <LoginForm onSubmit={ (e) => handleSubmit(e)}>
