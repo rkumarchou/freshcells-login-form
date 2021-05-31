@@ -3,6 +3,8 @@ import { gql } from '@apollo/client';
 import { useHistory } from "react-router";
 import Profile from '../profile.png'
 import { useState } from 'react'
+import { notification } from 'antd';
+import 'antd/dist/antd.css';
 import styled from 'styled-components'
 const UserInformation = styled.div `
   position: absolute;
@@ -36,20 +38,37 @@ type User = {
   lastName: String;
   username: String
 }
+
+const displayError = () => {
+  notification.error({
+    message: 'Invalid Email or Password',
+    description: '',
+  });
+};
+
+const displaySuccess = () => {
+  notification.success({
+    message: 'Successfull login',
+    description: '',
+  });
+};
+
 const Dashboard = () => {
   const history = useHistory();
   const [userInformation,setUserInformation] = useState<User>()
   const isAuthenticated = localStorage.getItem('token');
-  
+
   const { loading, error, data: userData } = useQuery(GET_USER, {
     variables: {
       id: 2,
     },
     onCompleted: (response) => {
       setUserInformation(response.user)
+      displaySuccess()
     },
     onError(err) { 
       console.log(`Error : ${err.message}`);
+      displayError()
     },     
   });
   
