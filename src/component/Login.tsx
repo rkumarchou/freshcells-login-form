@@ -55,8 +55,11 @@ const Login = () => {
       localStorage.setItem('token', response.login.jwt)
       history.push('/dashboard')      
     },
-    
+    onError(err) { 
+      console.log(`Error : ${err.message}`);
+    },    
   });
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login({

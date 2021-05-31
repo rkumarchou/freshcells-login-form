@@ -48,7 +48,9 @@ const Dashboard = () => {
     onCompleted: (response) => {
       setUserInformation(response.user)
     },
-    
+    onError(err) { 
+      console.log(`Error : ${err.message}`);
+    },     
   });
   
   const handleSubmit = () => {

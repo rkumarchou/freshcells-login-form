@@ -15,6 +15,11 @@ function App() {
       <Switch>
         <Route exact path='/' component={Login}/>
         <Route exact path='/dashboard' component={Dashboard}/> 
+        {isAuthenticated ? 
+          <Route render={() => <Redirect to={{pathname: "/dashboard"}} />} />      
+          : 
+          <Route render={() => <Redirect to={{pathname: "/"}} />} />
+        }
       </Switch>
     </Router>
   );
