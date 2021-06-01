@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { notification } from 'antd';
 import 'antd/dist/antd.css';
 import styled from 'styled-components'
+
 const UserInformation = styled.div `
   position: absolute;
   top: 10%;
@@ -41,14 +42,7 @@ type User = {
 
 const displayError = () => {
   notification.error({
-    message: 'Invalid Email or Password',
-    description: '',
-  });
-};
-
-const displaySuccess = () => {
-  notification.success({
-    message: 'Successfull login',
+    message: 'Invalid User',
     description: '',
   });
 };
@@ -64,7 +58,6 @@ const Dashboard = () => {
     },
     onCompleted: (response) => {
       setUserInformation(response.user)
-      displaySuccess()
     },
     onError(err) { 
       console.log(`Error : ${err.message}`);
@@ -90,7 +83,7 @@ const Dashboard = () => {
           <InfoDiv>Id : {userInformation && ` ${ userInformation.id}`}</InfoDiv>
           <InfoDiv>Name : {userInformation && ` ${ userInformation.firstName} ${userInformation.lastName}`}</InfoDiv>
           <InfoDiv>Username : {userInformation && ` ${userInformation.username}`}</InfoDiv>
-        </Information> </>: <InfoDiv>Sorry....! No Such User Exists</InfoDiv> }
+        </Information> </>: null }
         </>}
       </UserInformation>
     </>

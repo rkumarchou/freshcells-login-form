@@ -1,0 +1,20 @@
+{
+  "translations": {
+    "login": {
+      "welcome": "Welcome to my Website",
+      "email": "Email:",
+      "password": "Password:"
+    },
+    "dasboard": {
+      "loading": "Data is loading ....",
+      "noUser": "Sorry....! No Such User Exists",
+      "id": "ID :",
+      "name": "Name :",
+      "userName": "User Name :"
+    },
+    "message": {
+      "error": "Invalid Email or Password",
+      "loginSuccess": "Login successfully"
+    }
+  }
+}

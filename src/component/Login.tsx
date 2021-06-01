@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { LOGIN } from '../query/query'
 import { useMutation } from '@apollo/client'
+import { notification } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 export const LoginForm = styled.form `
   position: absolute;
@@ -45,18 +47,35 @@ type LoginType = {
   password: String
 }
 
+const displaySuccess = (message: string) => {
+  notification.success({
+    message: message,
+    description: '',
+  });
+};
+
+const displayError = (message: string) => {
+  notification.error({
+    message: message,
+    description: '',
+  });
+};
+
 
 const Login = () => {
   const history = useHistory();
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const { t, i18n } = useTranslation();
+
   const [login, { data }] = useMutation(LOGIN, {
     onCompleted: (response) => {
       localStorage.setItem('token', response.login.jwt)
+      displaySuccess(t('message.loginSuccess'))
       history.push('/dashboard')      
     },
     onError(err) { 
-      console.log(`Error : ${err.message}`);
+      displayError(t('message.error'))
     },    
   });
 
@@ -74,14 +93,14 @@ const Login = () => {
   }
   return (
   <LoginForm onSubmit={ (e) => handleSubmit(e)}>
-    <Heading> Welcome to my Website</Heading>
+    <Heading>{t('login.welcome')}</Heading>
     <Label>
-      Email:
+      {t('login.email')}
       <EmailInput className="email" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} />
     </Label>
     <br/>
     <Label>
-      Password:
+      {t('login.password')}
       <PasswordInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
     </Label>
     <br/>
